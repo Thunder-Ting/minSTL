@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 3.25)
 project(leistl)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -26,8 +26,8 @@ install(EXPORT leistlTargets
 )
 
 # 可执行文件或测试
-add_executable(main main.cpp)
-target_link_libraries(main PRIVATE leistl)
+#add_executable(main main.cpp)
+#target_link_libraries(main PRIVATE leistl)
 
 # GTest 测试
 FetchContent_Declare(
