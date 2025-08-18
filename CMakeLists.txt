@@ -25,11 +25,14 @@ install(EXPORT leistlTargets
         DESTINATION lib/cmake/leistl
 )
 
-
+include_directories(include)
 # 给项目加一个选项，控制是否构建测试
 option(LEISTL_BUILD_TESTS "Build tests for leistl" OFF)
 
 if (LEISTL_BUILD_TESTS)
+    add_executable(main main.cpp
+            include/string_lt.h)
+
     # GTest 测试
     FetchContent_Declare(
             googletest
@@ -48,10 +51,6 @@ if (LEISTL_BUILD_TESTS)
             GIT_TAG v1.16.0
     )
     FetchContent_MakeAvailable(googletest)
-
-    add_executable(test_vector test/test_vector.cpp)
-    target_link_libraries(test_vector PRIVATE gtest_main leistl)
-    add_test(NAME test_vector COMMAND test_vector)
 
     add_executable(test_vector test/test_vector.cpp)
     target_link_libraries(test_vector PRIVATE gtest_main leistl)
