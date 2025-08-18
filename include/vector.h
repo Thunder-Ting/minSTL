@@ -1,5 +1,7 @@
 #pragma once
 #include <memory>
+#include <initializer_list>
+#include <stdexcept>
 
 namespace leistd {
     template<typename T, typename Alloc = std::allocator<T> >

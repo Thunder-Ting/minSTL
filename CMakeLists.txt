@@ -25,19 +25,40 @@ install(EXPORT leistlTargets
         DESTINATION lib/cmake/leistl
 )
 
-# 可执行文件或测试
-#add_executable(main main.cpp)
-#target_link_libraries(main PRIVATE leistl)
 
-# GTest 测试
-FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG v1.16.0
-)
-FetchContent_MakeAvailable(googletest)
+# 给项目加一个选项，控制是否构建测试
+option(LEISTL_BUILD_TESTS "Build tests for leistl" OFF)
 
-add_executable(test_vector test/test_vector.cpp)
-target_link_libraries(test_vector PRIVATE gtest_main leistl)
-enable_testing()
-add_test(NAME test_vector COMMAND test_vector)
+if (LEISTL_BUILD_TESTS)
+    # GTest 测试
+    FetchContent_Declare(
+            googletest
+            GIT_REPOSITORY https://github.com/google/googletest.git
+            GIT_TAG v1.16.0
+    )
+    FetchContent_MakeAvailable(googletest)
+
+    include(CTest)  # 提供 enable_testing()
+    include(FetchContent)
+
+    # Fetch googletest 只在测试时启用
+    FetchContent_Declare(
+            googletest
+            GIT_REPOSITORY https://github.com/google/googletest.git
+            GIT_TAG v1.16.0
+    )
+    FetchContent_MakeAvailable(googletest)
+
+    add_executable(test_vector test/test_vector.cpp)
+    target_link_libraries(test_vector PRIVATE gtest_main leistl)
+    add_test(NAME test_vector COMMAND test_vector)
+
+    add_executable(test_vector test/test_vector.cpp)
+    target_link_libraries(test_vector PRIVATE gtest_main leistl)
+
+    enable_testing()
+    add_test(NAME test_vector COMMAND test_vector)
+endif ()
+
+
+
