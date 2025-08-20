@@ -30,8 +30,7 @@ include_directories(include)
 option(LEISTL_BUILD_TESTS "Build tests for leistl" OFF)
 
 if (LEISTL_BUILD_TESTS)
-    add_executable(main main.cpp
-            include/string_lt.h)
+    add_executable(main main.cpp)
 
     # GTest 测试
     FetchContent_Declare(
@@ -55,8 +54,13 @@ if (LEISTL_BUILD_TESTS)
     add_executable(test_vector test/test_vector.cpp)
     target_link_libraries(test_vector PRIVATE gtest_main leistl)
 
+    add_executable(test_list test/test_list.cpp)
+    target_link_libraries(test_list PRIVATE gtest_main leistl)
+
     enable_testing()
     add_test(NAME test_vector COMMAND test_vector)
+    add_test(NAME test_list COMMAND test_list)
+
 endif ()
 
 
